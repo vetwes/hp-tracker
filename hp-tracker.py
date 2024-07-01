@@ -59,6 +59,8 @@ def parseCommand(userInput):
             removeCharacter(int(userInput[1]))
         except ValueError:
             printSyntaxError()
+    elif userInput[0].lower() == 'quit':
+        exit()
     else:
         printSyntaxError()
 
@@ -112,20 +114,13 @@ def printSyntaxError():
     print('Invalid command or syntax. Type "help" to see available commands.')
 
 
-characterList = [{'name':'orc1', 'hp':5, 'maxHp':5}, {'name':'Freaky French fiend', 'hp':500, 'maxHp':500}, {'name':'George', 'hp':75, 'maxHp':75}]
+characterList = [{'name':'orc1', 'hp':5, 'maxHp':5}]
 
 
-printCharacters(characterList)
-print()
-parseCommand('add Paul   50')
-printCharacters(characterList)
-parseCommand('dmg  3   10+2+3+40')
-print()
-printCharacters(characterList)
-print()
-parseCommand('heal 3  5+4   ')
-parseCommand('rm 0')
-printCharacters(characterList)
-print()
-parseCommand('wipe')
-printCharacters(characterList)
+#main program
+
+running = True
+while running:
+    printCharacters(characterList)
+    parseCommand(input())
+    print()
