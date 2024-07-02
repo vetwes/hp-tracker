@@ -39,28 +39,33 @@ def parseCommand(userInput):
             wipeCharacters()
     elif userInput[0] == 'help':
         displayHelp()
+    elif userInput[0].lower() == 'quit':
+        exit()
+    elif userInput[0].lower() == 'edit':
+        try:
+            editCharacter(int(userInput[1]), int(userInput[2]))
+        except:
+            printSyntaxError()
     elif userInput[0] == 'add':
         try:
             addCharacter(userInput[1], int(userInput[2]))
-        except ValueError:
+        except:
             printSyntaxError() 
     elif userInput[0] == 'dmg':
         try:
             doDamage(int(userInput[1]), userInput[2])
-        except ValueError:
+        except:
             printSyntaxError()
     elif userInput[0] == 'heal':
         try:
             heal(int(userInput[1]), userInput[2])
-        except ValueError:
+        except:
             printSyntaxError()
     elif userInput[0] == 'rm':
         try:
             removeCharacter(int(userInput[1]))
-        except ValueError:
+        except:
             printSyntaxError()
-    elif userInput[0].lower() == 'quit':
-        exit()
     else:
         printSyntaxError()
 
@@ -97,12 +102,15 @@ def removeCharacter(charNum):
 def wipeCharacters():
     characterList.clear()
 
+def editCharacter(characterNumber, newHp):
+    characterList[characterNumber]['maxHp'] = newHp
+
 def displayHelp():
     print('''
 Commands:
     add {name} {max_hp}                     Add a new character.
-    dmg {character_number} {hp[{+hp}...]}   Damage a character, referenced by its No.
-    heal {character_number} {hp[{+hp}...]}  Heal a character, referenced by its No.
+    dmg {character_number} {hp[{+hp}...]}   Damage a character, referenced by its No. No spaces between "+" signs when adding.
+    heal {character_number} {hp[{+hp}...]}  Heal a character, referenced by its No. No spaces between "+" signs when adding.
     rm {character_number}                   Remove a character, referenced by its No.
     edit {character_number} {max_hp}        Edit a character, referenced by its No.
     wipe                                    Delete all characters.
@@ -119,8 +127,7 @@ characterList = [{'name':'orc1', 'hp':5, 'maxHp':5}]
 
 #main program
 
-running = True
-while running:
+while True:
     printCharacters(characterList)
     parseCommand(input())
     print()
