@@ -10,7 +10,7 @@ class txtColors:
 def printCharacters(characters):
     nameOffset = nameAdjust()
     print('No.'.ljust(5), 'Name'.ljust(nameOffset + 4), 'HP')
-    for i in range(0, len(characters)):
+    for i in range(len(characters)):
         if characters[i]['hp'] <= 0:
             formatOutput(txtColors.RED, i, characters[i]['name'], characters[i]['hp'], characters[i]['maxHp'])
         elif characters[i]['hp'] <= characters[i]['maxHp'] * 0.2:
@@ -18,7 +18,7 @@ def printCharacters(characters):
         else: formatOutput(txtColors.ENDC, i, characters[i]['name'], characters[i]['hp'], characters[i]['maxHp'])
 
 def nameAdjust():
-    #Kalles av formatOutput for å justere formateringen av 'Name'-kolonnen etter lengste karakternavn
+    #Kalles av formatOutput og printCharacters for å justere formateringen av 'Name'-kolonnen etter lengste karakternavn
     offset = 0
     for i in range(len(characterList)):
         if len(characterList[i]['name']) > offset:
@@ -31,8 +31,7 @@ def formatOutput(color, charNum, charName, charHp, maxHp):
 
 
 def parseCommand(userInput):
-    #Listen splittes med regex som matcher én eller flere whitespace så kommandoer ignorerer whitespace
-    userInput = re.split(r'\s+', userInput)
+    userInput = re.split(r'\s+', userInput)  #Splittes ved én eller flere whitespace slik at kommandoer ignorerer whitespace
 
     if userInput[0] == 'wipe':
         if input('Are you sure you want to delete all characters? [y/N] ').lower().startswith('y'):
@@ -73,8 +72,7 @@ def addCharacter(name, hitPoints):
     characterList.append({'name':name, 'hp':hitPoints, 'maxHp':hitPoints})
 
 def doDamage(characterNumber, damage):
-    #Listen splittes med regex som matcher et '+'-tegn for å tillate addering av HP
-    damage = re.split(r'\+', damage)
+    damage = damage.split('+')  #Splitter ved '+'-tegn for å tillate addering av HP
     try:
         damage = sum([int(i) for i in damage])
         if characterList[characterNumber]['hp'] - damage <= 0:
@@ -85,8 +83,7 @@ def doDamage(characterNumber, damage):
         printSyntaxError()
 
 def heal(characterNumber, hitPoints):
-    #Listen splittes med regex som matcher et '+'-tegn for å tillate addering av HP
-    heal = re.split(r'\+', hitPoints)
+    heal = hitPoints.split('+')  #Splitter ved '+'-tegn for å tillate addering av HP
     try:
         heal = sum([int(i) for i in heal])
         if characterList[characterNumber]['hp'] + heal > characterList[characterNumber]['maxHp']:
