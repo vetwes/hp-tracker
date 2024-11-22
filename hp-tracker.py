@@ -1,10 +1,17 @@
 #!/usr/env/bin python3
 import re
+import platform
 
 class txtColors:
     RED = '\033[31m'
     ORANGE = '\033[93m'
     ENDC = '\033[0m'
+
+def enableAnsiColorsWin():
+    if platform.system().lower() == 'windows':
+        import ctypes
+        kerneldll = ctypes.windll.kernel32  # Lar en kjøre funksjoner fra kernel32-dll-en
+        kerneldll.SetConsoleMode(kerneldll.GetStdHandle(-11), 7)
 
 
 def printCharacters(characters):
@@ -119,12 +126,14 @@ def printSyntaxError():
     print('Invalid command or syntax. Type "help" to see available commands.')
 
 
-characterList = [{'name':'orc1', 'hp':5, 'maxHp':5}]
+characterList = []
+
 
 
 #main program
 
 while True:
+    enableAnsiColorsWin()
     printCharacters(characterList)
     parseCommand(input())
     print()
